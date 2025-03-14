@@ -1,0 +1,12 @@
+# Ignore Streamlit secrets
+.streamlit/
+.streamlit/secrets.toml
+*.toml
+
+# Ignore credentials
+credentials.json
+
+*.pyc
+__pycache__/
+.env
+venv/
