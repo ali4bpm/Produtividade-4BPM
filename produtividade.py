@@ -300,7 +300,7 @@ fig.update_layout(
             'x': 0.5,  # Center title
             'xanchor': 'center',
             'font': {'color': 'white', 'size': 16, 'family': 'Arial Black'}
-            'y': 0.99,  # Ajusta posição vertical do título
+            'y': 0.95,  # Ajusta posição vertical do título
             'yanchor': 'top',
             'pad': {'b': 30}  # Adiciona margem inferior ao título
         },
