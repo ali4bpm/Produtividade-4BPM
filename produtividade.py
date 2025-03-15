@@ -29,6 +29,14 @@ hide_st_style = """
             button[kind="menuButton"] {display: none;}
             div[data-testid="manage-app-button"] {display: none !important;}
             section[data-testid="stSidebar"] > div > button[kind="menuButton"] {display: none;}
+
+             /* Espaçamento para elementos */
+            div.stDataFrame {margin-top: 1rem; margin-bottom: 1rem;}
+            div.element-container {margin-top: 0.1rem; margin-bottom: 0.1rem;}
+            .block-container {padding-top: 1rem; padding-bottom: 1rem;}
+            h1 {margin-bottom: 1rem;}
+            div.stExpander {margin-top: 0.1rem; margin-bottom: 2rem;}
+            </style>
             </style>
             """
 st.markdown(hide_st_style, unsafe_allow_html=True)
@@ -272,7 +280,7 @@ fig = px.bar(
         ranking.sort_values('PONTOS', ascending=True),
         y='EFETIVO',
         x='PONTOS',
-        #title='Ranking de Produtividade por Pontuação',
+        #title='Gráfico Ranking',
         text=[f" {p:,d}" for i, p in zip(range(len(ranking), 0, -1), 
               ranking.sort_values('PONTOS', ascending=True)['PONTOS'])],
         orientation='h',
@@ -288,13 +296,16 @@ fig.update_layout(
         paper_bgcolor='rgba(0,0,0,0)',
         font={'color': 'white', 'size': 12},
         title={
-            'text': 'Ranking de Produtividade por Pontuação',
+            'text': 'Gráfico Ranking',
             'x': 0.5,  # Center title
             'xanchor': 'center',
             'font': {'color': 'white', 'size': 16, 'family': 'Arial Black'}
+            'y': 0.999,  # Ajusta posição vertical do título
+            'yanchor': 'top',
+            'pad': {'b': 30}  # Adiciona margem inferior ao título
         },
         yaxis={'tickfont': {'size': 12}},  # Aumentar fonte do eixo Y
-        margin=dict(l=20, r=150, t=40, b=20),  # Margem direita maior para labels
+        margin=dict(l=20, r=150, t=100, b=20),  # Margem direita maior para labels
         bargap=0.5  # Espaçamento entre barras
     )
 
@@ -303,7 +314,7 @@ fig.update_traces(
         textfont={'color': 'white', 'size': 12, 'family': 'Arial Bold'},
         textposition='outside',
         #marker_line_color='white',
-        marker_line_width=1,
+        marker_line_width=0.1,
         hovertemplate='<b>%{y}</b><br>Pontuação: %{x:.d} pontos<extra></extra>',
         hoverlabel=dict(
             bgcolor='white',
