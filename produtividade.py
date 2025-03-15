@@ -21,6 +21,7 @@ hide_st_style = """
             #MainMenu {visibility: hidden;}
             footer {visibility: hidden;}
             header {visibility: hidden;}
+            [data-testid="manage-app-button"] {visibility:hidden;}
             .stDeployButton {display: none;}
             .viewerBadge_container__1QSob {display: none;}
             .stToolbar {display: none;}
