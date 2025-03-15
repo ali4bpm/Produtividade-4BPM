@@ -301,8 +301,8 @@ fig.update_layout(
             'xanchor': 'center',
             'font': {'color': 'white', 'size': 16, 'family': 'Arial Black'}
             #'y': 0.95,  # Ajusta posição vertical do título
-            'yanchor': 'top',
-            'pad': {'b': 30}  # Adiciona margem inferior ao título
+            #'yanchor': 'top',
+            #'pad': {'b': 30}  # Adiciona margem inferior ao título
         },
         yaxis={'tickfont': {'size': 12}},  # Aumentar fonte do eixo Y
         margin=dict(l=20, r=150, t=100, b=20),  # Margem direita maior para labels
