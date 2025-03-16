@@ -21,14 +21,7 @@ hide_st_style = """
             #MainMenu {visibility: hidden;}
             footer {visibility: hidden;}
             header {visibility: hidden;}
-            .stDeployButton {display: none;}
-            .viewerBadge_container__1QSob {display: none;}
-            .stToolbar {display: none;}
-            .appview-container .main .block-container {padding-top: 1rem;}
-            div[data-testid="stToolbar"] {display: none;}
-            button[kind="menuButton"] {display: none;}
-            div[data-testid="manage-app-button"] {display: none !important;}
-            section[data-testid="stSidebar"] > div > button[kind="menuButton"] {display: none;}
+            [data-testid-"stToolbar"] {visibility: hidden;}
 
              /* Espaçamento para elementos */
             div.stDataFrame {margin-top: 1rem; margin-bottom: 1rem;}
