@@ -21,7 +21,7 @@ hide_st_style = """
             #MainMenu {visibility: hidden;}
             footer {visibility: hidden;}
             header {visibility: hidden;}
-            [data-testid-"stToolbar"] {display: none;}
+            [data-testid-"stToolbar"] {visibility: hidden;}
             #[data-testid-"stStatusWidget"] {visibility: hidden;}
 
              /* Espaçamento para elementos */
