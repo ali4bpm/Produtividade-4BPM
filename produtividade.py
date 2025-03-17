@@ -82,8 +82,12 @@ st.markdown("<h1 style='text-align: center;'>PRODUTIVIDADE E PONTUAÇÃO</h1>", 
 st.write("Produtividade - 4º BPM RN")
 
 # Sidebar com filtros
+st.sidebar.markdown("<h1 style='text-align: center;'>4º BPM - PMRN</h1>", unsafe_allow_html=True)
 st.sidebar.image("brasao.jpg")
-st.sidebar.subheader("FILTROS")
+st.sidebar.caption("Batalhão Potengi")
+#st.sidebar.subheader("FILTROS")
+st.sidebar.markdown("<h1 style='text-align: center;'>FILTROS</h1>", unsafe_allow_html=True)
+
 
 # Filtros corrigidos
 anos_disponiveis = sorted(df['ANO'].dropna().unique())
