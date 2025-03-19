@@ -13,11 +13,10 @@ from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
 from reportlab.lib.units import inch
 from io import BytesIO
 from utils import carregar_dados
-import time
 # Configurando a página
 st.set_page_config(page_title="Produtividade 4º BPM",page_icon="brasao.jpg",layout='wide')
 
-# Hide Streamlit elements
+# Hide Streamlit elements and add spacing
 hide_st_style = """
             <style>
             #MainMenu {visibility: hidden;}
@@ -25,14 +24,15 @@ hide_st_style = """
             header {visibility: hidden;}
             [data-testid-"stToolbar"] {visibility: hidden;}
             #[data-testid-"stStatusWidget"] {visibility: hidden;}
+            
+            
 
-             /* Espaçamento para elementos */
+            /* Espaçamento para elementos */
             div.stDataFrame {margin-top: 1rem; margin-bottom: 1rem;}
             div.element-container {margin-top: 0.1rem; margin-bottom: 0.1rem;}
             .block-container {padding-top: 1rem; padding-bottom: 1rem;}
             h1 {margin-bottom: 1rem;}
             div.stExpander {margin-top: 0.1rem; margin-bottom: 2rem;}
-            </style>
             </style>
             """
 st.markdown(hide_st_style, unsafe_allow_html=True)
@@ -49,55 +49,34 @@ meses = {'January':'Janeiro', 'February':'Fevereiro', 'March': 'Março',
          'November': 'Novembro', 'December': 'Dezembro'}
 
 # Função para carregar os dados
-@st.cache_data(ttl=5)  # Reduced TTL to 5 seconds)
+@st.cache_data()
 def carregar_dados():
-            try:
-                planilha = client.open_by_key('1PLZZMSrp19FFvVIAOhZTVnRh7Tk7EQLoROZy4OaBCDg')
-                aba = planilha.worksheet('Sheet_Pontuacao')
+    planilha = client.open_by_key('1PLZZMSrp19FFvVIAOhZTVnRh7Tk7EQLoROZy4OaBCDg')
+    aba = planilha.worksheet('Sheet_Pontuacao')
 
-                # Force refresh of worksheet
-                aba.refresh()
+    # Acessar os dados da planilha
+    dados = aba.get_all_values()
 
-                # Acessar os dados da planilha
-                dados = aba.get_all_values()
-
-                # Convertendo em DataFrame do pandas      
-                df = pd.DataFrame(dados)  
-                # Retirando a primeira linha do df
-                dfTratado = pd.DataFrame(dados[1:], columns=dados[0])
-                df = dfTratado
+    # Convertendo em DataFrame do pandas      
+    df = pd.DataFrame(dados)  
+    # Retirando a primeira linha do df
+    dfTratado = pd.DataFrame(dados[1:], columns=dados[0])
+    df = dfTratado
     
-                # Converter DATA para datetime e criar colunas derivadas
-                df['DATA'] = pd.to_datetime(df['DATA'], format='%d/%m/%Y', errors='coerce')
-                df['ANO'] = df['DATA'].dt.year.astype(str)
-                df['MÊS'] = df['DATA'].dt.strftime('%B').map(meses)
-                df['QTDE'] = pd.to_numeric(df['QTDE'], errors='coerce')  # Converter QTDE para número
-                df['PONTOS'] = pd.to_numeric(df['PONTOS'], errors='coerce')  # Converter PONTOS para número
-                # Somente após todas as operações .dt, converter DATA para string
-                df['DATA'] = df['DATA'].dt.strftime('%d/%m/%Y')
+    # Converter DATA para datetime e criar colunas derivadas
+    df['DATA'] = pd.to_datetime(df['DATA'], format='%d/%m/%Y', errors='coerce')
+    df['ANO'] = df['DATA'].dt.year.astype(str)
+    df['MÊS'] = df['DATA'].dt.strftime('%B').map(meses)
+    df['QTDE'] = pd.to_numeric(df['QTDE'], errors='coerce')  # Converter QTDE para número
+    df['PONTOS'] = pd.to_numeric(df['PONTOS'], errors='coerce')  # Converter PONTOS para número
+    # Somente após todas as operações .dt, converter DATA para string
+    df['DATA'] = df['DATA'].dt.strftime('%d/%m/%Y')
 
-                return df
-            except Exception as e:
-                st.error(f"Erro ao atualizar dados: {str(e)}")
-                return None
-
-# Add auto-refresh container after st.set_page_config
-placeholder = st.empty()
-refresh_interval = 5  # seconds
-
-            
-
-try:
-    while True:
-        with placeholder.container():
-            df = carregar_dados()
-            if df is None:  # If error occurs, revert to original code
-                st.experimental_rerun()
-
-
-#df = carregar_dados()
     
-
+    
+    return df
+      
+df = carregar_dados()
 
 # Título do aplicativo
 #st.title("PRODUTIVIDADE E PONTUAÇÃO")
@@ -110,7 +89,6 @@ st.write("Produtividade - 4º BPM RN")
 st.sidebar.markdown("<h1 style='text-align: center;'>4º BPM - PMRN</h1>", unsafe_allow_html=True)
 st.sidebar.image("brasao.jpg")
 st.sidebar.caption("Batalhão Potengi")
-#st.sidebar.subheader("FILTROS")
 st.sidebar.markdown("<h1 style='text-align: center;'>FILTROS</h1>", unsafe_allow_html=True)
 
 
@@ -255,6 +233,7 @@ except Exception as e:
 st.divider()
 st.subheader("RESUMO DOS DADOS")
 st.write(f"Total de registros encontrados: {len(df)}")
+#st.write(f"Quantidade: {sum(df['QTDE'])}")
 st.write(f"Total de Pontos: {sum(df['PONTOS'])}")
 
 
@@ -321,13 +300,13 @@ fig.update_layout(
             'text': 'Gráfico Ranking',
             'x': 0.5,  # Center title
             'xanchor': 'center',
-            'font': {'color': 'white', 'size': 16, 'family': 'Arial Black'}
-            #'y': 0.95,  # Ajusta posição vertical do título
-            #'yanchor': 'top',
-            #'pad': {'b': 30}  # Adiciona margem inferior ao título
+            'font': {'color': 'white', 'size': 20, 'family': 'Arial Black'},
+            'y': 0.95,  # Ajusta posição vertical do título
+            'yanchor': 'top',
+            'pad': {'b': 30}  # Adiciona margem inferior ao título
         },
         yaxis={'tickfont': {'size': 12}},  # Aumentar fonte do eixo Y
-        margin=dict(l=20, r=150, t=100, b=20),  # Margem direita maior para labels
+        margin=dict(l=20, r=150, t=100, b=20),  # Aumentado t (top margin) para 60
         bargap=0.5  # Espaçamento entre barras
     )
 
@@ -359,7 +338,25 @@ st.divider()
 st.subheader("RESUMO DOS DADOS")
 st.write(f"Total de registros encontrados: {len(df)}")
 st.write(f"Total de Pontos: {sum(df['PONTOS'])}")
+
+
 st.divider()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
