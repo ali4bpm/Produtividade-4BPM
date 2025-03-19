@@ -71,9 +71,9 @@ def carregar_dados():
     # Somente após todas as operações .dt, converter DATA para string
     df['DATA'] = df['DATA'].dt.strftime('%d/%m/%Y')
 
-    conn = st.connection("gsheets", type=GSheetsConnection)
+    #conn = st.connection("gsheets", type=GSheetsConnection)
     # Ler os dados com TTL de 60 segundos (1 minuto)
-    df = conn.read(worksheet="Sheet_Pontuacao", ttl=60)  # TTL em segundos
+    #df = conn.read(worksheet="Sheet_Pontuacao", ttl=60)  # TTL em segundos
     
     return df
       
