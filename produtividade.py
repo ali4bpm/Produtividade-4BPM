@@ -83,7 +83,25 @@ df = carregar_dados()
 st.markdown("<h1 style='text-align: center;'>PRODUTIVIDADE E PONTUAÇÃO</h1>", unsafe_allow_html=True)
 
 # Texto na página
-st.write("Produtividade - 4º BPM PMRN")
+def refresh_data():
+    try:
+        with st.spinner('Atualizando dados...'):
+            # Aqui você coloca seu código existente de conexão com Google Sheets
+            st.cache_resource.clear()
+            st.success('✅ Dados atualizados com sucesso!')
+            return True
+    except Exception as e:
+        st.error(f'❌ Erro ao atualizar dados: {str(e)}')
+        return False
+
+# Layout do título e botão
+col1, col2 = st.columns([0.85, 0.15])
+with col1:
+    st.write("Produtividade - 4º BPM PMRN")
+with col2:
+    if st.button("Atualizar Dados""🔄", help="Atualizar dados"):
+        refresh_data()
+
 
 # Sidebar com filtros
 st.sidebar.markdown("<h1 style='text-align: center;'>4º BPM - PMRN</h1>", unsafe_allow_html=True)
