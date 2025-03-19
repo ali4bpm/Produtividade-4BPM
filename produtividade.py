@@ -85,7 +85,7 @@ def carregar_dados():
 placeholder = st.empty()
 refresh_interval = 5  # seconds
 
-            return df
+            
 
 try:
     while True:
