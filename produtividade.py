@@ -73,7 +73,7 @@ def carregar_dados():
 
     conn = st.connection("gsheets", type=GSheetsConnection)
     # Ler os dados com TTL de 60 segundos (1 minuto)
-    df = conn.read(ttl=60)  # TTL em segundos
+    df = conn.read(worksheet="Sheet_Pontuacao", ttl=60)  # TTL em segundos
     
     return df
       
