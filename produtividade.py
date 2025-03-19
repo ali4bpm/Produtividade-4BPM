@@ -5,6 +5,7 @@ import gspread
 import plotly.express as px
 import openpyxl
 from oauth2client.service_account import ServiceAccountCredentials
+from streamlit_gsheets import GSheetsConnection
 from datetime import datetime, timedelta
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import A4, landscape
@@ -69,6 +70,10 @@ def carregar_dados():
     df['PONTOS'] = pd.to_numeric(df['PONTOS'], errors='coerce')  # Converter PONTOS para número
     # Somente após todas as operações .dt, converter DATA para string
     df['DATA'] = df['DATA'].dt.strftime('%d/%m/%Y')
+
+    conn = st.connection("gsheets", type=GSheetsConnection)
+    # Ler os dados com TTL de 60 segundos (1 minuto)
+    df = conn.read(ttl=60)  # TTL em segundos
     
     return df
       
