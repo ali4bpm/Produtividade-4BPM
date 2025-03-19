@@ -83,7 +83,7 @@ df = carregar_dados()
 st.markdown("<h1 style='text-align: center;'>PRODUTIVIDADE E PONTUAÇÃO</h1>", unsafe_allow_html=True)
 
 # Texto na página
-st.write("Produtividade - 4º BPM RN")
+st.write("Produtividade - 4º BPM PMRN")
 
 # Sidebar com filtros
 st.sidebar.markdown("<h1 style='text-align: center;'>4º BPM - PMRN</h1>", unsafe_allow_html=True)
