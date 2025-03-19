@@ -51,38 +51,41 @@ meses = {'January':'Janeiro', 'February':'Fevereiro', 'March': 'Março',
 # Função para carregar os dados
 @st.cache_data(ttl=5)  # Reduced TTL to 5 seconds)
 def carregar_dados():
-    planilha = client.open_by_key('1PLZZMSrp19FFvVIAOhZTVnRh7Tk7EQLoROZy4OaBCDg')
-    aba = planilha.worksheet('Sheet_Pontuacao')
+            try:
+                planilha = client.open_by_key('1PLZZMSrp19FFvVIAOhZTVnRh7Tk7EQLoROZy4OaBCDg')
+                aba = planilha.worksheet('Sheet_Pontuacao')
 
-    # Force refresh of worksheet
-    aba.refresh()
+                # Force refresh of worksheet
+                aba.refresh()
 
-    # Acessar os dados da planilha
-    dados = aba.get_all_values()
+                # Acessar os dados da planilha
+                dados = aba.get_all_values()
 
-    # Convertendo em DataFrame do pandas      
-    df = pd.DataFrame(dados)  
-    # Retirando a primeira linha do df
-    dfTratado = pd.DataFrame(dados[1:], columns=dados[0])
-    df = dfTratado
+                # Convertendo em DataFrame do pandas      
+                df = pd.DataFrame(dados)  
+                # Retirando a primeira linha do df
+                dfTratado = pd.DataFrame(dados[1:], columns=dados[0])
+                df = dfTratado
     
-    # Converter DATA para datetime e criar colunas derivadas
-    df['DATA'] = pd.to_datetime(df['DATA'], format='%d/%m/%Y', errors='coerce')
-    df['ANO'] = df['DATA'].dt.year.astype(str)
-    df['MÊS'] = df['DATA'].dt.strftime('%B').map(meses)
-    df['QTDE'] = pd.to_numeric(df['QTDE'], errors='coerce')  # Converter QTDE para número
-    df['PONTOS'] = pd.to_numeric(df['PONTOS'], errors='coerce')  # Converter PONTOS para número
-    # Somente após todas as operações .dt, converter DATA para string
-    df['DATA'] = df['DATA'].dt.strftime('%d/%m/%Y')
+                # Converter DATA para datetime e criar colunas derivadas
+                df['DATA'] = pd.to_datetime(df['DATA'], format='%d/%m/%Y', errors='coerce')
+                df['ANO'] = df['DATA'].dt.year.astype(str)
+                df['MÊS'] = df['DATA'].dt.strftime('%B').map(meses)
+                df['QTDE'] = pd.to_numeric(df['QTDE'], errors='coerce')  # Converter QTDE para número
+                df['PONTOS'] = pd.to_numeric(df['PONTOS'], errors='coerce')  # Converter PONTOS para número
+                # Somente após todas as operações .dt, converter DATA para string
+                df['DATA'] = df['DATA'].dt.strftime('%d/%m/%Y')
 
-    return df
-except Exception as e:
-        st.error(f"Erro ao atualizar dados: {str(e)}")
-        return None
+                return df
+            except Exception as e:
+                st.error(f"Erro ao atualizar dados: {str(e)}")
+                return None
 
 # Add auto-refresh container after st.set_page_config
 placeholder = st.empty()
 refresh_interval = 5  # seconds
+
+            return df
 
 try:
     while True:
