@@ -5,7 +5,7 @@ import gspread
 import plotly.express as px
 import openpyxl
 from oauth2client.service_account import ServiceAccountCredentials
-from streamlit_gsheets import GSheetsConnection
+#from streamlit_gsheets import GSheetsConnection
 from datetime import datetime, timedelta
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import A4, landscape
