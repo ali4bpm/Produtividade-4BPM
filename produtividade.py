@@ -13,6 +13,7 @@ from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
 from reportlab.lib.units import inch
 from io import BytesIO
 from utils import carregar_dados
+import time
 # Configurando a página
 st.set_page_config(page_title="Produtividade 4º BPM",page_icon="brasao.jpg",layout='wide')
 
@@ -48,10 +49,13 @@ meses = {'January':'Janeiro', 'February':'Fevereiro', 'March': 'Março',
          'November': 'Novembro', 'December': 'Dezembro'}
 
 # Função para carregar os dados
-@st.cache_data()
+@st.cache_data(ttl=5)  # Reduced TTL to 5 seconds)
 def carregar_dados():
     planilha = client.open_by_key('1PLZZMSrp19FFvVIAOhZTVnRh7Tk7EQLoROZy4OaBCDg')
     aba = planilha.worksheet('Sheet_Pontuacao')
+
+    # Force refresh of worksheet
+    aba.refresh()
 
     # Acessar os dados da planilha
     dados = aba.get_all_values()
@@ -72,9 +76,23 @@ def carregar_dados():
     df['DATA'] = df['DATA'].dt.strftime('%d/%m/%Y')
 
     return df
+except Exception as e:
+        st.error(f"Erro ao atualizar dados: {str(e)}")
+        return None
+
+# Add auto-refresh container after st.set_page_config
+placeholder = st.empty()
+refresh_interval = 5  # seconds
+
+try:
+    while True:
+        with placeholder.container():
+            df = carregar_dados()
+            if df is None:  # If error occurs, revert to original code
+                st.experimental_rerun()
 
 
-df = carregar_dados()
+#df = carregar_dados()
     
 
 
