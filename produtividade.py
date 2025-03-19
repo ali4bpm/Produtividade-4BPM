@@ -48,18 +48,10 @@ meses = {'January':'Janeiro', 'February':'Fevereiro', 'March': 'Março',
          'November': 'Novembro', 'December': 'Dezembro'}
 
 # Função para carregar os dados
-@st.cache_data(ttl=1)  # Reduced TTL to 1 second for near real-time updates
+@st.cache_data()
 def carregar_dados():
-    try:
-        # Try to get fresh data
-        planilha = client.open_by_key('1PLZZMSrp19FFvVIAOhZTVnRh7Tk7EQLoROZy4OaBCDg')
-        aba = planilha.worksheet('Sheet_Pontuacao')
-        
-        # Enable automatic spreadsheet refresh
-        aba.spreadsheet.client.session.requests_session.headers.update({
-            'Cache-Control': 'no-cache',
-            'Pragma': 'no-cache'
-        })
+    planilha = client.open_by_key('1PLZZMSrp19FFvVIAOhZTVnRh7Tk7EQLoROZy4OaBCDg')
+    aba = planilha.worksheet('Sheet_Pontuacao')
 
     # Acessar os dados da planilha
     dados = aba.get_all_values()
@@ -79,29 +71,11 @@ def carregar_dados():
     # Somente após todas as operações .dt, converter DATA para string
     df['DATA'] = df['DATA'].dt.strftime('%d/%m/%Y')
 
-    #conn = st.connection("gsheets", type=GSheetsConnection)
-    # Ler os dados com TTL de 60 segundos (1 minuto)
-    #df = conn.read(worksheet="Sheet_Pontuacao", ttl=60)  # TTL em segundos
-    
-    except Exception as e:
-        st.warning(f"Erro ao atualizar dados: {str(e)}. Usando cache...")
-        # If error occurs, try to use cached data or last successful fetch
-        if 'last_successful_df' in st.session_state:
-            return st.session_state.last_successful_df
-            
-        # If no cached data, raise the error
-        raise e
+    return df
 
-# Store successful fetches in session state
-try:
-    df = carregar_dados()
-    st.session_state.last_successful_df = df
-except Exception as e:
-    st.error(f"Erro ao carregar dados: {str(e)}")
-    if 'last_successful_df' in st.session_state:
-        df = st.session_state.last_successful_df
-    else:
-        st.stop()
+
+df = carregar_dados()
+    
 
 
 # Título do aplicativo
