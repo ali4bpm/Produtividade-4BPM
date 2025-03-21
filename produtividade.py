@@ -268,8 +268,7 @@ st.divider()
 
 # Criar ranking com formato melhorado e ordenação decrescente
 st.markdown("<h1 style='text-align: center;'>RANKING DE PRODUTIVIDADE</h1>", unsafe_allow_html=True)
-@st.cache_data()
-def carregar_ranking():
+
             ranking = df.groupby(['EFETIVO', 'COMPANHIA']).agg({
                     'PONTOS': 'sum',
                     'QTDE': 'sum'
@@ -290,8 +289,7 @@ def carregar_ranking():
                         )
                     }
                 )
-            return ranking
-ranking = carregar_ranking()
+         
 
 try:
     # Criar botão de download apenas se houver dados
