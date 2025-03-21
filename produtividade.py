@@ -89,7 +89,7 @@ def refresh_data():
     try:
         with st.spinner('Atualizando dados...'):
             # Força limpeza do cache
-            st.session_state.clear()
+            #st.session_state.clear()
             # Recarrega os dados
             df = carregar_dados()
             if df is not None:
