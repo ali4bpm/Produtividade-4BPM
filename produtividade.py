@@ -83,7 +83,7 @@ df = carregar_dados()
 st.markdown("<h1 style='text-align: center;'>PRODUTIVIDADE E PONTUAÇÃO</h1>", unsafe_allow_html=True)
 
 # Texto na página
-st.write("Produtividade - 4º BPM PMRN")
+
 def refresh_data():
     try:
         with st.spinner('Atualizando dados...'):
@@ -261,7 +261,7 @@ st.divider()
 st.markdown("<h1 style='text-align: center;'>RANKING DE PRODUTIVIDADE</h1>", unsafe_allow_html=True)
 ranking = df.groupby(['EFETIVO', 'COMPANHIA']).agg({
         'PONTOS': 'sum',
-        'QTDE': 'sum'
+        'QTDE': 'sum'.astype(int)
     }).reset_index()
     
 ranking = ranking.sort_values('PONTOS', ascending=False)
