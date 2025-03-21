@@ -268,26 +268,31 @@ st.divider()
 # Criar ranking com formato melhorado e ordenação decrescente
 st.markdown("<h1 style='text-align: center;'>RANKING DE PRODUTIVIDADE</h1>", unsafe_allow_html=True)
 
-            ranking = df.groupby(['EFETIVO', 'COMPANHIA']).agg({
-                    'PONTOS': 'sum',
-                    'QTDE': 'sum'
-                }).reset_index()
-                
-            ranking = ranking.sort_values('PONTOS', ascending=False)
-            ranking.index = range(1, len(ranking) + 1)
-            ranking['PONTOS'] = ranking['PONTOS'].astype(int)
-            
-                # Mostrar ranking formatado
-            st.dataframe(
-                    ranking,
-                    use_container_width=True,
-                    column_config={
-                        "PONTOS": st.column_config.NumberColumn(
-                            "PONTOS",
-                            format="%d"
-                        )
-                    }
-                )
+@st.cache_data(ttl=60)
+def carregar_ranking():
+    
+    ranking = df.groupby(['EFETIVO', 'COMPANHIA']).agg({
+        'PONTOS': 'sum',
+        'QTDE': 'sum'
+    }).reset_index()
+    
+    ranking = ranking.sort_values('PONTOS', ascending=False)
+    ranking.index = range(1, len(ranking) + 1)
+    ranking['PONTOS'] = ranking['PONTOS'].astype(int)
+
+    # Mostrar ranking formatado
+st.dataframe(
+        randint,
+        use_container_width=True,
+        column_config={
+            "PONTOS": st.column_config.NumberColumn(
+                "PONTOS",
+                format="%d"
+            )
+        }
+    )
+
+ranking = carregar_ranking()
          
 
 try:
