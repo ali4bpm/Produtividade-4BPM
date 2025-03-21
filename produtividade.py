@@ -88,7 +88,7 @@ def refresh_data():
     try:
         with st.spinner('Atualizando dados...'):
             # Aqui você coloca seu código existente de conexão com Google Sheets
-                    carregar_dados()
+            carregar_dados()
             st.cache_resource.clear()
             st.success('✅ Dados atualizados com sucesso!')
             return True
