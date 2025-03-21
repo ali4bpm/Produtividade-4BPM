@@ -50,7 +50,8 @@ meses = {'January':'Janeiro', 'February':'Fevereiro', 'March': 'Março',
          'November': 'Novembro', 'December': 'Dezembro'}
 
 # Função para carregar os dados
-@st.cache_data()
+
+@st.cache_data(ttl=1)  # Cache com tempo de vida curto
 def carregar_dados():
     planilha = client.open_by_key('1PLZZMSrp19FFvVIAOhZTVnRh7Tk7EQLoROZy4OaBCDg')
     aba = planilha.worksheet('Sheet_Pontuacao')
@@ -88,29 +89,27 @@ st.markdown("<h1 style='text-align: center;'>PRODUTIVIDADE E PONTUAÇÃO</h1>", 
 def refresh_data():
     try:
         with st.spinner('Atualizando dados...'):
-            # Força limpeza do cache
-            st.session_state.clear()
-            # Recarrega os dados
-            df = carregar_dados()
-            if df is not None:
-                st.success('✅ Dados atualizados com sucesso!')
-                st.experimental_rerun()  # Substituído experimental_rerun por rerun
+            # Limpa o cache específico da função
+            carregar_dados.clear()
+            # Atualiza os dados na sessão
+            st.session_state.data = carregar_dados()
+            st.success('✅ Dados atualizados com sucesso!')
             return True
     except Exception as e:
         st.error(f'❌ Erro ao atualizar dados: {str(e)}')
         return False
+
+# Inicialização dos dados na sessão
+if 'data' not in st.session_state:
+    st.session_state.data = carregar_dados()
 
 # Layout do título e botão
 col1, col2 = st.columns([0.85, 0.15])
 with col1:
     st.write("Produtividade - 4º BPM PMRN")
 with col2:
-    if st.button("Atualizar Dados🔄", help="Atualizar dados"):
+    if st.button("🔄", help="Atualizar dados"):
         refresh_data()
-
-# Carregamento inicial dos dados
-if 'data' not in st.session_state:
-    st.session_state.data = carregar_dados()
 
 # Use os dados do session_state
 df = st.session_state.data
