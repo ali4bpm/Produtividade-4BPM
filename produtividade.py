@@ -13,6 +13,7 @@ from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
 from reportlab.lib.units import inch
 from io import BytesIO
 from utils import carregar_dados
+import time
 # Configurando a página
 st.set_page_config(page_title="Produtividade 4º BPM",page_icon="brasao.jpg",layout='wide')
 
