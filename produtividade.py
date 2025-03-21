@@ -261,7 +261,7 @@ st.divider()
 st.markdown("<h1 style='text-align: center;'>RANKING DE PRODUTIVIDADE</h1>", unsafe_allow_html=True)
 ranking = df.groupby(['EFETIVO', 'COMPANHIA']).agg({
         'PONTOS': 'sum',
-        'QTDE': 'sum'.astype(int)
+        'QTDE': 'sum'
     }).reset_index()
     
 ranking = ranking.sort_values('PONTOS', ascending=False)
