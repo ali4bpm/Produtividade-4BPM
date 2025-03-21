@@ -88,34 +88,34 @@ def refresh_data():
     try:
         with st.spinner('Atualizando dados...'):
             # Aqui você coloca seu código existente de conexão com Google Sheets
-@st.cache_data()
-def carregar_dados():
-    planilha = client.open_by_key('1PLZZMSrp19FFvVIAOhZTVnRh7Tk7EQLoROZy4OaBCDg')
-    aba = planilha.worksheet('Sheet_Pontuacao')
+            @st.cache_data()
+            def carregar_dados():
+                planilha = client.open_by_key('1PLZZMSrp19FFvVIAOhZTVnRh7Tk7EQLoROZy4OaBCDg')
+                aba = planilha.worksheet('Sheet_Pontuacao')
 
-    # Acessar os dados da planilha
-    dados = aba.get_all_values()
+                # Acessar os dados da planilha
+                dados = aba.get_all_values()
 
-    # Convertendo em DataFrame do pandas      
-    df = pd.DataFrame(dados)  
-    # Retirando a primeira linha do df
-    dfTratado = pd.DataFrame(dados[1:], columns=dados[0])
-    df = dfTratado
+                # Convertendo em DataFrame do pandas      
+                df = pd.DataFrame(dados)  
+                # Retirando a primeira linha do df
+                dfTratado = pd.DataFrame(dados[1:], columns=dados[0])
+                df = dfTratado
     
-    # Converter DATA para datetime e criar colunas derivadas
-    df['DATA'] = pd.to_datetime(df['DATA'], format='%d/%m/%Y', errors='coerce')
-    df['ANO'] = df['DATA'].dt.year.astype(str)
-    df['MÊS'] = df['DATA'].dt.strftime('%B').map(meses)
-    df['QTDE'] = pd.to_numeric(df['QTDE'], errors='coerce')  # Converter QTDE para número
-    df['PONTOS'] = pd.to_numeric(df['PONTOS'], errors='coerce')  # Converter PONTOS para número
-    # Somente após todas as operações .dt, converter DATA para string
-    df['DATA'] = df['DATA'].dt.strftime('%d/%m/%Y')
+                # Converter DATA para datetime e criar colunas derivadas
+                df['DATA'] = pd.to_datetime(df['DATA'], format='%d/%m/%Y', errors='coerce')
+                df['ANO'] = df['DATA'].dt.year.astype(str)
+                df['MÊS'] = df['DATA'].dt.strftime('%B').map(meses)
+                df['QTDE'] = pd.to_numeric(df['QTDE'], errors='coerce')  # Converter QTDE para número
+                df['PONTOS'] = pd.to_numeric(df['PONTOS'], errors='coerce')  # Converter PONTOS para número
+                # Somente após todas as operações .dt, converter DATA para string
+                df['DATA'] = df['DATA'].dt.strftime('%d/%m/%Y')
 
     
     
-    return df
+                return df
       
-df = carregar_dados()           
+            df = carregar_dados()           
             st.cache_resource.clear()
             st.success('✅ Dados atualizados com sucesso!')
             return True
