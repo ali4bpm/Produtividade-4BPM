@@ -85,7 +85,7 @@ st.markdown("<h1 style='text-align: center;'>PRODUTIVIDADE E PONTUAÇÃO</h1>", 
 # Texto na página
 
 def refresh_data():
-   
+   try:
         with st.spinner('Atualizando dados...'):
             # Aqui você coloca seu código existente de conexão com Google Sheets
             @st.cache_data()
@@ -119,9 +119,9 @@ def refresh_data():
             st.cache_resource.clear()
             st.success('✅ Dados atualizados com sucesso!')
             return True
-    except Exception as e:
-        st.error(f'❌ Erro ao atualizar dados: {str(e)}')
-        return False
+     except Exception as e:
+            st.error(f'❌ Erro ao atualizar dados: {str(e)}')
+            return False
 
 # Layout do título e botão
 col1, col2 = st.columns([0.85, 0.15])
