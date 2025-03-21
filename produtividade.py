@@ -85,7 +85,7 @@ st.markdown("<h1 style='text-align: center;'>PRODUTIVIDADE E PONTUAÇÃO</h1>", 
 # Texto na página
 
 def refresh_data():
-    try:
+   
         with st.spinner('Atualizando dados...'):
             # Aqui você coloca seu código existente de conexão com Google Sheets
             @st.cache_data()
