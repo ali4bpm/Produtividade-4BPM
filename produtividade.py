@@ -50,7 +50,7 @@ meses = {'January':'Janeiro', 'February':'Fevereiro', 'March': 'Março',
          'November': 'Novembro', 'December': 'Dezembro'}
 
 # Função para carregar os dados
-@st.cache_data(ttl=60)
+@st.cache_data()
 def carregar_dados():
     planilha = client.open_by_key('1PLZZMSrp19FFvVIAOhZTVnRh7Tk7EQLoROZy4OaBCDg')
     aba = planilha.worksheet('Sheet_Pontuacao')
