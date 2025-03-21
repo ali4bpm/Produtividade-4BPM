@@ -92,6 +92,10 @@ def refresh_data():
             # Aqui você coloca seu código existente de conexão com Google Sheets
             st.cache_resource.clear()
             st.success('✅ Dados atualizados com sucesso!')
+            time.sleep(2)  # Aguarda 3 segundos
+            st.experimental_rerun()  # Recarrega o app para limpar a mensagem
+
+
             return True
     except Exception as e:
         st.error(f'❌ Erro ao atualizar dados: {str(e)}')
