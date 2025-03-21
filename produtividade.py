@@ -95,7 +95,7 @@ def refresh_data():
             st.cache_resource.clear()
             st.success('✅ Dados atualizados com sucesso!')
             time.sleep(2)  # Aguarda 3 segundos
-            st.experimental_rerun()  # Recarrega o app para limpar a mensagem
+            #st.experimental_rerun()  # Recarrega o app para limpar a mensagem
 
 
             return True
