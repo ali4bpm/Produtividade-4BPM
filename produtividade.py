@@ -13,7 +13,6 @@ from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
 from reportlab.lib.units import inch
 from io import BytesIO
 from utils import carregar_dados
-import time
 # Configurando a página
 st.set_page_config(page_title="Produtividade 4º BPM",page_icon="brasao.jpg",layout='wide')
 
@@ -51,34 +50,31 @@ meses = {'January':'Janeiro', 'February':'Fevereiro', 'March': 'Março',
 
 # Função para carregar os dados
 @st.cache_data()
-@st.cache_resource(ttl=300)
 def carregar_dados():
-    try:
-        planilha = client.open_by_key('1PLZZMSrp19FFvVIAOhZTVnRh7Tk7EQLoROZy4OaBCDg')
-        aba = planilha.worksheet('Sheet_Pontuacao')
+    planilha = client.open_by_key('1PLZZMSrp19FFvVIAOhZTVnRh7Tk7EQLoROZy4OaBCDg')
+    aba = planilha.worksheet('Sheet_Pontuacao')
 
-        # Acessar os dados da planilha
-        dados = aba.get_all_values()
+    # Acessar os dados da planilha
+    dados = aba.get_all_values()
 
-        # Convertendo em DataFrame do pandas      
-        df = pd.DataFrame(dados)  
-        # Retirando a primeira linha do df
-        dfTratado = pd.DataFrame(dados[1:], columns=dados[0])
-        df = dfTratado
-        
-        # Converter DATA para datetime e criar colunas derivadas
-        df['DATA'] = pd.to_datetime(df['DATA'], format='%d/%m/%Y', errors='coerce')
-        df['ANO'] = df['DATA'].dt.year.astype(str)
-        df['MÊS'] = df['DATA'].dt.strftime('%B').map(meses)
-        df['QTDE'] = pd.to_numeric(df['QTDE'], errors='coerce')  # Converter QTDE para número
-        df['PONTOS'] = pd.to_numeric(df['PONTOS'], errors='coerce')  # Converter PONTOS para número
-        # Somente após todas as operações .dt, converter DATA para string
-        df['DATA'] = df['DATA'].dt.strftime('%d/%m/%Y')
+    # Convertendo em DataFrame do pandas      
+    df = pd.DataFrame(dados)  
+    # Retirando a primeira linha do df
+    dfTratado = pd.DataFrame(dados[1:], columns=dados[0])
+    df = dfTratado
+    
+    # Converter DATA para datetime e criar colunas derivadas
+    df['DATA'] = pd.to_datetime(df['DATA'], format='%d/%m/%Y', errors='coerce')
+    df['ANO'] = df['DATA'].dt.year.astype(str)
+    df['MÊS'] = df['DATA'].dt.strftime('%B').map(meses)
+    df['QTDE'] = pd.to_numeric(df['QTDE'], errors='coerce')  # Converter QTDE para número
+    df['PONTOS'] = pd.to_numeric(df['PONTOS'], errors='coerce')  # Converter PONTOS para número
+    # Somente após todas as operações .dt, converter DATA para string
+    df['DATA'] = df['DATA'].dt.strftime('%d/%m/%Y')
 
-        return df
-    except Exception as e:
-        st.error("Erro ao carregar dados")
-        return None
+    
+    
+    return df
       
 df = carregar_dados()
 
@@ -87,29 +83,7 @@ df = carregar_dados()
 st.markdown("<h1 style='text-align: center;'>PRODUTIVIDADE E PONTUAÇÃO</h1>", unsafe_allow_html=True)
 
 # Texto na página
-def refresh_data():
-    try:
-        with st.spinner('Atualizando dados...'):
-            # Aqui você coloca seu código existente de conexão com Google Sheets
-                    
-            st.cache_resource.clear()
-            st.success('✅ Dados atualizados com sucesso!')
-           
-
-
-            return True
-    except Exception as e:
-        st.error(f'❌ Erro ao atualizar dados: {str(e)}')
-        return False
-
-# Layout do título e botão
-col1, col2 = st.columns([0.85, 0.15])
-with col1:
-    st.write("Produtividade - 4º BPM PMRN")
-with col2:
-    if st.button("Atualizar Dados""🔄", help="Atualizar dados"):
-        refresh_data()
-
+st.write("Produtividade - 4º BPM PMRN")
 
 # Sidebar com filtros
 st.sidebar.markdown("<h1 style='text-align: center;'>4º BPM - PMRN</h1>", unsafe_allow_html=True)
@@ -267,22 +241,18 @@ st.divider()
 
 # Criar ranking com formato melhorado e ordenação decrescente
 st.markdown("<h1 style='text-align: center;'>RANKING DE PRODUTIVIDADE</h1>", unsafe_allow_html=True)
-
-@st.cache_data(ttl=60)
-def carregar_ranking():
-    
-    ranking = df.groupby(['EFETIVO', 'COMPANHIA']).agg({
+ranking = df.groupby(['EFETIVO', 'COMPANHIA']).agg({
         'PONTOS': 'sum',
         'QTDE': 'sum'
     }).reset_index()
     
-    ranking = ranking.sort_values('PONTOS', ascending=False)
-    ranking.index = range(1, len(ranking) + 1)
-    ranking['PONTOS'] = ranking['PONTOS'].astype(int)
+ranking = ranking.sort_values('PONTOS', ascending=False)
+ranking.index = range(1, len(ranking) + 1)
+ranking['PONTOS'] = ranking['PONTOS'].astype(int)
 
     # Mostrar ranking formatado
 st.dataframe(
-        randint,
+        ranking,
         use_container_width=True,
         column_config={
             "PONTOS": st.column_config.NumberColumn(
@@ -291,9 +261,6 @@ st.dataframe(
             )
         }
     )
-
-ranking = carregar_ranking()
-         
 
 try:
     # Criar botão de download apenas se houver dados
