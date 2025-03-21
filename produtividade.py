@@ -89,12 +89,12 @@ def refresh_data():
     try:
         with st.spinner('Atualizando dados...'):
             # Força limpeza do cache
-            #st.session_state.clear()
+            st.session_state.clear()
             # Recarrega os dados
             df = carregar_dados()
             if df is not None:
                 st.success('✅ Dados atualizados com sucesso!')
-                st.rerun()  # Substituído experimental_rerun por rerun
+                st.experimental_rerun()  # Substituído experimental_rerun por rerun
             return True
     except Exception as e:
         st.error(f'❌ Erro ao atualizar dados: {str(e)}')
