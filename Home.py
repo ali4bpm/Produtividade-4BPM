@@ -14,30 +14,47 @@ if 'authenticated' not in st.session_state:
 
 # Lista de usuários autorizados
 efetivo = [
-    {"nome": "TC PM Alvarenga", "usuario": "02508041408", "senha": "1142879"},
+   {"nome": "TC PM Alvarenga", "usuario": "02508041408", "senha": "1142879"},
     {"nome": "Maj PM Gustavo", "usuario": "03411465441", "senha": "1757253"},
-    {"nome": "Cap PM Leonardo", "usuario": "04759772464", "senha": "1759698"},
-    {"nome": "1º Ten PM Ramon", "usuario": "06340907474", "senha": "1960997"},
-    {"nome": "2º Ten PM Silva", "usuario": "09575289498", "senha": "2452146"},
-    {"nome": "ST PM João", "usuario": "05294764440", "senha": "1763903"},
-    {"nome": "1º SGT PM Pedro", "usuario": "03593678446", "senha": "1669311"},
-    {"nome": "2º SGT PM José", "usuario": "10950056421", "senha": "2452456"},
-    {"nome": "3º SGT PM Maria", "usuario": "03691812120", "senha": "2452936"},
-    {"nome": "3º SGT PM Aécio", "usuario": "01112841474", "senha": "1948059"},
-    {"nome": "CB PM Ana", "usuario": "10435836455", "senha": "2276747"},
-    {"nome": "CB PM Carlos", "usuario": "02408188490", "senha": "1642294"},
-    {"nome": "SD PM Paulo", "usuario": "05563794466", "senha": "2397765"},
-    {"nome": "SD PM Lucas", "usuario": "02488491403", "senha": "1637673"}
+    {"nome": "Cap PM Alves", "usuario": "04759772464", "senha": "1759698"},
+    {"nome": "Cap PM Gotardo", "usuario": "06340907474", "senha": "1960997"},
+    {"nome": "2º Ten PM Erik", "usuario": "09575289498", "senha": "2452146"},
+    {"nome": "2º Ten PM Trajano", "usuario": "05294764440", "senha": "1763903"},
+    {"nome": "2º Ten PM NEY", "usuario": "03593678446", "senha": "1669311"},
+    {"nome": "2º Ten PM Henrique", "usuario": "10950056421", "senha": "2452456"},
+    {"nome": "2º Ten PM Assis", "usuario": "03691812120", "senha": "2452936"},
+    {"nome": "2º SGT PM Aécio", "usuario": "01112841474", "senha": "1948059"},
+    {"nome": "CB PM Pastel", "usuario": "10435836455", "senha": "2276747"},
+    {"nome": "ST PM Alexandre", "usuario": "02408188490", "senha": "1642294"},
+    {"nome": "SD PM Luna", "usuario": "05563794466", "senha": "2397765"},
+    {"nome": "2º SGT PM Samuel", "usuario": "02488491403", "senha": "1637673"},
+    {"nome": "ST PM Max", "usuario": "91251311415", "senha": "1636685"},
+    {"nome": "2º SGT PM Sena", "usuario": "01062108400", "senha": "1760394"},
+    {"nome": "2º SGT PM Thiago", "usuario": "05430854492", "senha": "1955578"},
+    {"nome": "2º SGT PM Cléber", "usuario": "02963327471", "senha": "1673467"},
+    {"nome": "3º SGT PM Flaubert", "usuario": "04652011482", "senha": "2063964"}
 ]
 
 # Custom CSS for login form and hide sidebar
-st.markdown("""<style>
-[data-testid="stSidebar"][aria-expanded="true"] {
-    visibility: hidden;
-    width: 0px;
+st.markdown("""
+<style>
+div.css-1dp5vir.e8zbici1 {display: none;}
+section.css-163ttbj.e1fqkh3o11 {display: none;}
+section[data-testid="stSidebar"] {display: none !important;}
+[data-testid="stSidebar"][aria-expanded="true"] {display: none !important;}
+[data-testid="stSidebar"][aria-expanded="false"] {display: none !important;}
+[data-testid="collapsedControl"] {display: none !important;}
+button[kind="header"] {display: none !important;}
+div.css-ch5dnh.e1fqkh3o1 {display: none !important;}
+
+div[data-testid="stToolbar"] {display: none;}
+header {display: none;}
+footer {display: none;}
+
+.stApp {
+    margin: 0;
+    padding: 0;
 }
-
-
 
 .login-form {
     background-color: rgba(255, 255, 255, 0.9);
@@ -77,7 +94,7 @@ with st.container():
         if user:
             st.session_state['authenticated'] = True
             st.session_state['user_name'] = user["nome"]
-            st.success(f"Bem vindo {user['nome']}!")
+            st.success(f"Bem Vindo {user['nome']}")
             time.sleep(2)
             st.switch_page("pages/produtividade.py")
         else:
