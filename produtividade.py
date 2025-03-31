@@ -259,6 +259,44 @@ try:
             mime="application/pdf",
             use_container_width=True,
         )
+
+# Adicionar gráfico de pizza
+    st.markdown("<h3 style='text-align: center;'>Distribuição por Companhia</h3>", unsafe_allow_html=True)
+    
+    # Calcular as contagens e percentuais por companhia
+    company_counts = df['COMPANHIA'].value_counts()
+    company_percentages = (company_counts / len(df) * 100).round(1)
+    
+    # Criar o gráfico de pizza
+    fig_pie = px.pie(
+        values=company_percentages,
+        names=company_percentages.index,
+        title='',
+        hole=0.3,
+        hover_data=[company_counts],
+        labels={'label': 'Companhia', 'value': 'Porcentagem', 'hover_data_0': 'Total'}
+    )
+    
+    # Atualizar o layout do gráfico
+    fig_pie.update_traces(
+        textposition='inside',
+        textinfo='label+percent',
+        hovertemplate="<b>%{label}</b><br>" +
+                     "Porcentagem: %{percent}<br>" +
+                     "Total: %{customdata[0]}<extra></extra>"
+    )
+    
+    fig_pie.update_layout(
+        showlegend=True,
+        legend_title="Companhias",
+        font={'color': 'white', 'size': 12},
+        paper_bgcolor='rgba(0,0,0,0)',
+        plot_bgcolor='rgba(0,0,0,0)',
+        height=500
+    )
+    
+    st.plotly_chart(fig_pie, use_container_width=True)
+
 except Exception as e:
     st.error(f"Erro ao exibir dados: {str(e)}")
 
