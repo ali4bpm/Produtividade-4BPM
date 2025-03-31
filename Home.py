@@ -96,6 +96,6 @@ with st.container():
             st.session_state['user_name'] = user["nome"]
             st.success(f"Bem Vindo {user['nome']}")
             time.sleep(2)
-            st.switch_page("pages/produtividade.py")
+            st.switch_page("pages\produtividade.py")
         else:
             st.error("Usuário ou senha inválidos!")
