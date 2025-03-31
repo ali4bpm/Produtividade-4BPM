@@ -20,9 +20,7 @@ from random import randint
 # Configurando a página
 st.set_page_config(page_title="Produtividade 4º BPM",page_icon="brasao.jpg",layout='wide')
 
-# Add authentication check at the start
-if 'authenticated' not in st.session_state or not st.session_state['authenticated']:
-    st.switch_page("Home.py")
+
 
 # Hide Streamlit elements and add spacing
 hide_st_style = """
