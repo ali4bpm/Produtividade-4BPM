@@ -377,7 +377,7 @@ fig.update_layout(
             'yanchor': 'top',
             'pad': {'b': 30}  # Adiciona margem inferior ao título
         },
-        yaxis={'tickfont': {'size': 12}},  # Aumentar fonte do eixo Y
+        yaxis={'tickfont': {'size': 10}},  # Aumentar fonte do eixo Y
         margin=dict(l=20, r=150, t=100, b=20),  # Aumentado t (top margin) para 60
         bargap=0.5  # Espaçamento entre barras
     )
@@ -399,7 +399,7 @@ fig.update_traces(
 
     # Remover grades e ajustar eixos
 fig.update_xaxes(showgrid=False, title_font={'size': 14})
-fig.update_yaxes(showgrid=False, title_font={'size': 14})
+fig.update_yaxes(showgrid=False, title_font={'size': 12})
 
 st.plotly_chart(fig, use_container_width=True)
 #except Exception as e:
