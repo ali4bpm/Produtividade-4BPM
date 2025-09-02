@@ -306,6 +306,7 @@ st.divider()
 st.subheader("RESUMO DOS DADOS")
 st.write(f"Total de registros encontrados: {len(df)}")
 #st.write(f"Quantidade: {sum(df['QTDE'])}")
+df['PONTOS'] = pd.to_numeric(df['PONTOS'], errors='coerce').fillna(0)
 st.write(f"Total de Pontos: {df['PONTOS'].sum(skipna=True)}")
 
 
@@ -409,10 +410,12 @@ st.plotly_chart(fig, use_container_width=True)
 st.divider()
 st.subheader("RESUMO DOS DADOS")
 st.write(f"Total de registros encontrados: {len(df)}")
+df['PONTOS'] = pd.to_numeric(df['PONTOS'], errors='coerce').fillna(0)
 st.write(f"Total de Pontos: {df['PONTOS'].sum(skipna=True)}")
 
 
 st.divider()
+
 
 
 
