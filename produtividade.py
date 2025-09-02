@@ -191,7 +191,7 @@ with st.expander("Sobre o Aplicativo:"):
     st.write("TCO/BOC DELEGACIA: 03 pontos")
     st.write("BOPM: 03 pontos")
     st.write("VIOLÊNCIA DOMÉSTICA: 05 pontos")
-    st.write("ESTUPRO COM FLAGRANTE: 30 pontos")
+    st.write("ESTUPRO COM FLAGRANTE COM VÍTIMA, ACUSADO E MATERIALIDADE: 30 pontos")
     st.write("HOMICÍDIO COM PRISÃO: 50 pontos")
     
 # Função para criar PDF
@@ -413,6 +413,7 @@ st.write(f"Total de Pontos: {sum(df['PONTOS'])}")
 
 
 st.divider()
+
 
 
 
