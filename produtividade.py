@@ -164,10 +164,10 @@ with st.expander("Sobre o Aplicativo:"):
     st.write("ARTESANAL LONGA: 25 pontos")
     st.write("COLETE BALÍSTICO: 20 pontos")
     st.write("ESPINGARDA: 35 pontos")
-    st.write("METRALHADORA: 40 pontos")
-    st.write("FUZIL: 50 pontos")
-    st.write("PISTOLA: 30 pontos")
-    st.write("REVÓLVER: 25 pontos")
+    st.write("METRALHADORA: 80 pontos")
+    st.write("FUZIL: 100 pontos")
+    st.write("PISTOLA: 40 pontos")
+    st.write("REVÓLVER: 30 pontos")
     st.write("RIFLE: 35 pontos")
     st.write("SIMULACRO: 06 pontos")
     st.write("ENTORPECENTE De 1g a 500g - Peso 1 (Duas ou mais Ocorrências no mesmo dia até o total contará como pontuação subsequente): 15 pontos")
@@ -413,6 +413,7 @@ st.write(f"Total de Pontos: {int(df['PONTOS'].sum(skipna=True))}")
 
 
 st.divider()
+
 
 
 
