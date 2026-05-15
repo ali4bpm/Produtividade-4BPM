@@ -401,7 +401,7 @@ fig.update_traces(
 fig.update_xaxes(showgrid=False, title_font={'size': 14})
 fig.update_yaxes(showgrid=False, title_font={'size': 12})
 
-st.plotly_chart(fig, width='stretch)
+st.plotly_chart(fig, width='stretch')
 #except Exception as e:
 #st.error(f"Erro ao processar dados: {str(e)}")
 
