@@ -189,7 +189,7 @@ with st.expander("Sobre o Aplicativo:"):
     st.write("VEÍCULO (FURTO/ROUBO) APREENDIDO: 07 pontos")
     st.write("TCO/BOC 4º BPM: 06 pontos")
     st.write("TCO/BOC DELEGACIA: 03 pontos")
-    st.write("BOPM: 03 pontos")
+    st.write("BOPPM: 03 pontos")
     st.write("VIOLÊNCIA DOMÉSTICA: 05 pontos")
     st.write("ESTUPRO COM FLAGRANTE COM VÍTIMA, ACUSADO E MATERIALIDADE: 30 pontos")
     st.write("HOMICÍDIO COM PRISÃO: 50 pontos")
@@ -247,7 +247,7 @@ def create_pdf(df):
 # Update the PDF download section
 try:
     # Mostrar DataFrame
-    st.dataframe(df, use_container_width=True)
+    st.dataframe(df, width='stretch)
     
     # Criar botão de download apenas se houver dados
     pdf = create_pdf(df)
@@ -257,7 +257,7 @@ try:
             data=pdf,
             file_name="produtividade.pdf",
             mime="application/pdf",
-            use_container_width=True,
+            width='stretch,
         )
 
     # Adicionar gráfico de pizza
@@ -295,7 +295,7 @@ try:
         height=500
     )
     
-    st.plotly_chart(fig_pie, use_container_width=True)
+    st.plotly_chart(fig_pie, width='stretch)
 
 except Exception as e:
     st.error(f"Erro ao exibir dados: {str(e)}")
@@ -325,7 +325,7 @@ ranking['PONTOS'] = ranking['PONTOS'].astype(int)
     # Mostrar ranking formatado
 st.dataframe(
         ranking,
-        use_container_width=True,
+        width='stretch,
         column_config={
             "PONTOS": st.column_config.NumberColumn(
                 "PONTOS",
@@ -343,7 +343,7 @@ try:
             data=pdf,
             file_name="ranking_produtividade.pdf",
             mime="application/pdf",
-            use_container_width=True,
+            width='stretch,
         )
 except Exception as e:
     st.error(f"Erro ao exibir dados do ranking: {str(e)}")
@@ -401,7 +401,7 @@ fig.update_traces(
 fig.update_xaxes(showgrid=False, title_font={'size': 14})
 fig.update_yaxes(showgrid=False, title_font={'size': 12})
 
-st.plotly_chart(fig, use_container_width=True)
+st.plotly_chart(fig, width='stretch)
 #except Exception as e:
 #st.error(f"Erro ao processar dados: {str(e)}")
 
