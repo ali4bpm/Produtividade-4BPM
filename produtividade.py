@@ -247,7 +247,7 @@ def create_pdf(df):
 # Update the PDF download section
 try:
     # Mostrar DataFrame
-    st.dataframe(df, width='stretch)
+    st.dataframe(df, width='stretch')
     
     # Criar botão de download apenas se houver dados
     pdf = create_pdf(df)
@@ -257,7 +257,7 @@ try:
             data=pdf,
             file_name="produtividade.pdf",
             mime="application/pdf",
-            width='stretch,
+            width='stretch',
         )
 
     # Adicionar gráfico de pizza
@@ -295,7 +295,7 @@ try:
         height=500
     )
     
-    st.plotly_chart(fig_pie, width='stretch)
+    st.plotly_chart(fig_pie, width='stretch')
 
 except Exception as e:
     st.error(f"Erro ao exibir dados: {str(e)}")
@@ -325,7 +325,7 @@ ranking['PONTOS'] = ranking['PONTOS'].astype(int)
     # Mostrar ranking formatado
 st.dataframe(
         ranking,
-        width='stretch,
+        width='stretch',
         column_config={
             "PONTOS": st.column_config.NumberColumn(
                 "PONTOS",
@@ -343,7 +343,7 @@ try:
             data=pdf,
             file_name="ranking_produtividade.pdf",
             mime="application/pdf",
-            width='stretch,
+            width='stretch',
         )
 except Exception as e:
     st.error(f"Erro ao exibir dados do ranking: {str(e)}")
