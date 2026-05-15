@@ -18,7 +18,7 @@ from random import randint
 
 
 # Configurando a página
-st.set_page_config(page_title="Produtividade 4º BPM",page_icon="brasao.jpg",layout='wide')
+st.set_page_config(page_title="Produtividade 4º BPM",page_icon="brasao.jpg",layout='wide',initial_sidebar_state="expanded")
 
 
 
